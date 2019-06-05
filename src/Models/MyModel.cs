@@ -11,8 +11,14 @@ namespace mongoserialization.Models
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
+
+        [BsonElement("name")]
         public string Name { get; set; }
+
+        [BsonElement("jobs")]
         public List<Job> Jobs { get; set; }
+
+        [BsonElement("metadata")]
         public object Metadata { get; set; }
 
         public MyModel()

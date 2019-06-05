@@ -1,5 +1,45 @@
-[
-    { 
+{ 
+    "_id" : ObjectId("5ce7f971fb2d1d28a8c01999"), 
+    "name" : "Model 1", 
+    "jobs" : [
+        {
+            "name" : "Job 1", 
+            "metadata" : {
+                "property1" : "prop value 1", 
+                "property2" : "prop value 2"
+            }, 
+            "logs" : [
+                {
+                    "message" : "My message", 
+                    "timestamp" : ISODate("2019-05-24T14:04:35.263+0000")
+                }, 
+                {
+                    "message" : "My message 2", 
+                    "timestamp" : ISODate("2019-05-24T14:05:49.130+0000")
+                }
+            ]
+        }, 
+        {
+            "name" : "Job 2", 
+            "metadata" : null, 
+            "logs" : [
+                {
+                    "message" : "My message", 
+                    "timestamp" : ISODate("2019-05-24T14:05:18.676+0000")
+                }, 
+                {
+                    "message" : "My message 2", 
+                    "timestamp" : ISODate("2019-05-24T14:05:30.847+0000")
+                }
+            ]
+        }
+    ], 
+    "metadata" : {
+        "key1" : "mykey1value", 
+        "key2" : 5.0
+    }
+}
+{ 
     "_id" : ObjectId("5ce7f971fb2d1d28a8c01003"), 
     "name" : "Model 1", 
     "jobs" : [
@@ -39,7 +79,7 @@
         "key1" : "mykey1value", 
         "key2" : 5.0
     }
-},
+}
 { 
     "_id" : ObjectId("5ce7f9c9fb2d1d28a8c01004"), 
     "name" : "Model 2", 
@@ -86,4 +126,3 @@
         "key2" : 5.0
     }
 }
-]
