@@ -52,8 +52,8 @@ namespace mongoserialization.test
         public void NewtonSoft_ReadDataModel()
         {
             
-            var result = collectionModel.Find(model => model.Name.Equals("Bson Model 1")).FirstOrDefault();
-
+            var result = collectionModel.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
+            
             string json = JsonConvert.SerializeObject(result, Formatting.Indented);
             output.WriteLine(json);
             
