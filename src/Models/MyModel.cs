@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,16 @@ namespace mongoserialization.Models
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        //[JsonProperty("_id")]
         public string Id { get; set; }
+
+        [BsonElement("name")]
         public string Name { get; set; }
+
+        [BsonElement("jobs")]
         public List<Job> Jobs { get; set; }
+
+        [BsonElement("metadata")]
         public object Metadata { get; set; }
 
         public MyModel()
