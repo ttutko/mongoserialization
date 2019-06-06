@@ -6,7 +6,8 @@
       "name": "Newton Job 1",
       "metadata": {
         "property1": "Newton prop value 1",
-        "property2": "Newton prop value 2"
+        "property2": "Newton prop value 2",
+        "metaDateTime": "2019-05-24T14:04:35.263Z"
       },
       "logs": [
         {
@@ -64,6 +65,7 @@
   "metadata": {
     "key1": "Newtonmykey1value",
     "Key2": 5.1,
-    "key3": 3
+    "key3": 3,
+    "metaDateTime": "2019-05-24T14:04:35.263Z"
   }
 }
