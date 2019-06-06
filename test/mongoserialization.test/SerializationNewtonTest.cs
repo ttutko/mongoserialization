@@ -98,7 +98,8 @@ namespace mongoserialization.test
 
             var settings = new JsonSerializerSettings();
             settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'FFF'Z'";
-            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //settings.ContractResolver = new CamelCasePropertyNamesContractResolver() { IgnoreIsSpecifiedMembers = true };
+            settings.ContractResolver = new CustomCamelCasePropertyNamesContractResolver();
 
             string json;
             var file = @"Data\Serialization.Models.Newton.json";
