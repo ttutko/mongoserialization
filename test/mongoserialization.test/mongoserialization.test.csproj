@@ -7,13 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\Serialization.Models.Bson.Array.json" />
     <None Remove="Data\Serialization.Models.Bson.json" />
     <None Remove="Data\Serialization.Models.json" />
+    <None Remove="Data\Serialization.Models.Newton.Array.json" />
     <None Remove="Data\Serialization.Models.Newton.json" />
     <None Remove="Data\Serialization.Models_Array.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\Serialization.Models.Newton.Array.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Data\Serialization.Models.Bson.Array.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="Data\Serialization.Models.Bson.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -33,9 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

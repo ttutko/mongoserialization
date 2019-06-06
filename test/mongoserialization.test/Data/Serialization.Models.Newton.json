@@ -1,89 +1,41 @@
-[
-    { 
-    "_id" : ObjectId("5ce7f971fb2d1d28a8c09000"), 
-    "name" : "Newton Model 1", 
-    "jobs" : [
+{
+  "id": "5ce7f971fb2d1d28a8c09000",
+  "name": "Newton Model 1",
+  "jobs": [
+    {
+      "name": "Newton Job 1",
+      "metadata": {
+        "property1": "Newton prop value 1",
+        "property2": "Newton prop value 2"
+      },
+      "logs": [
         {
-            "name" : "Newton Job 1", 
-            "metadata" : {
-                "property1" : "Newton prop value 1", 
-                "property2" : "Newton prop value 2"
-            }, 
-            "logs" : [
-                {
-                    "message" : "Newton My message", 
-                    "timestamp" : ISODate("2019-05-24T14:04:35.263+0000")
-                }, 
-                {
-                    "message" : "Newton My message 2", 
-                    "timestamp" : ISODate("2019-05-24T14:05:49.130+0000")
-                }
-            ]
-        }, 
+          "message": "Newton My message",
+          "timestamp": "2019-05-24T14:04:35.263"
+        },
         {
-            "name" : "Job 2", 
-            "metadata" : null, 
-            "logs" : [
-                {
-                    "message" : "Newton My message", 
-                    "timestamp" : ISODate("2019-05-24T14:05:18.676+0000")
-                }, 
-                {
-                    "message" : "Newton My message 2", 
-                    "timestamp" : ISODate("2019-05-24T14:05:30.847+0000")
-                }
-            ]
+          "message": "Newton My message 2",
+          "timestamp": "2019-05-24T14:05:49.130"
         }
-    ], 
-    "metadata" : {
-        "key1" : "Newtonmykey1value", 
-        "key2" : 5.0
-    }
-},
-{ 
-    "_id" : ObjectId("5ce7f9c9fb2d1d28a8c09001"), 
-    "name" : "Newton Model 2", 
-    "jobs" : [
+      ]
+    },
+    {
+      "name": "Job 2",
+      "metadata": null,
+      "logs": [
         {
-            "name" : "Newton Job 1", 
-            "metadata" : {
-                "property1" : "Newton prop value 1", 
-                "property2" : "Newton prop value 2"
-            }, 
-            "logs" : [
-                {
-                    "message" : "Newton My message", 
-                    "timestamp" : ISODate("2019-05-24T14:05:52.164+0000")
-                }, 
-                {
-                    "message" : "Newton My message 2", 
-                    "timestamp" : ISODate("2019-05-24T14:06:05.225+0000")
-                }
-            ]
-        }, 
+          "message": "Newton My message",
+          "timestamp": "2019-05-24T14:05:18.676"
+        },
         {
-            "name" : "Newton Job 2", 
-            "metadata" : {
-                "meta1" : "Newton value1", 
-                "meta2" : {
-                    "subkey1" : 5.0
-                }
-            }, 
-            "logs" : [
-                {
-                    "message" : "Newton My message", 
-                    "timestamp" : ISODate("2019-05-24T14:06:19.842+0000")
-                }, 
-                {
-                    "message" : "Newton My message 2", 
-                    "timestamp" : ISODate("2019-05-24T14:06:30.195+0000")
-                }
-            ]
+          "message": "Newton My message 2",
+          "timestamp": "2019-05-24T14:05:30.847"
         }
-    ], 
-    "metadata" : {
-        "key1" : "Newton mykey1value", 
-        "key2" : 5.0
+      ]
     }
+  ],
+  "metadata": {
+    "key1": "Newtonmykey1value",
+    "key2": 5.0
+  }
 }
-]
