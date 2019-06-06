@@ -21,35 +21,143 @@ namespace mongoserialization.Serializers
 
         public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
         {
-            if(value == null)
+            //if(value == null)
+            //{
+            //    context.Writer.WriteNull();
+            //    return;
+            //}
+
+            //if(value.GetType().IsAssignableFrom(typeof(JObject)))
+            //{
+            //    var jobj = (JObject)value;
+            //    context.Writer.WriteStartDocument();
+            //    foreach(var val in jobj)
+            //    {
+            //        switch(val.Value.Type)
+            //        {
+            //            case JTokenType.String:
+            //                context.Writer.WriteName(val.Key);
+            //                context.Writer.WriteString(val.Value.ToString());
+            //                break;
+            //            case JTokenType.Integer:
+            //                context.Writer.WriteName(val.Key);
+            //                context.Writer.WriteInt32((int)val.Value);
+            //                break;
+            //            case JTokenType.Float:
+            //                context.Writer.WriteName(val.Key);
+            //                context.Writer.WriteDouble((double)val.Value);
+            //                break;
+            //            case JTokenType.Array:
+
+            //            default:    
+            //                break;
+            //        }
+            //    }
+            //    context.Writer.WriteEndDocument();
+            //}
+            //else
+            //{
+            //    context.Writer.WriteNull();
+            //}
+            SerializeJObject(context, args, value);
+        }
+
+        private void SerializeJObject(BsonSerializationContext context, BsonSerializationArgs args, object value)
+        {
+            if (value == null)
             {
                 context.Writer.WriteNull();
                 return;
             }
 
-            if(value.GetType().IsAssignableFrom(typeof(JObject)))
+            if (value.GetType().IsAssignableFrom(typeof(JObject)))
             {
                 var jobj = (JObject)value;
                 context.Writer.WriteStartDocument();
-                foreach(var val in jobj)
+                foreach (var val in jobj)
                 {
                     context.Writer.WriteName(val.Key);
-                    switch(val.Value.Type)
-                    {
-                        case JTokenType.String:                            
-                            context.Writer.WriteString(val.Value.ToString());
-                            break;
-                        case JTokenType.Integer:
-                            context.Writer.WriteInt32((int)val.Value);
-                            break;
-                        case JTokenType.Float:
-                            context.Writer.WriteDouble((double)val.Value);
-                            break;
-                        default:    
-                            break;
-                    }
+                    SerializeJObject(context, args, val.Value);
+                    //switch (val.Value.Type)
+                    //{
+                    //    case JTokenType.String:
+                    //        context.Writer.WriteName(val.Key);
+                    //        context.Writer.WriteString(val.Value.ToString());
+                    //        break;
+                    //    case JTokenType.Integer:
+                    //        context.Writer.WriteName(val.Key);
+                    //        context.Writer.WriteInt32((int)val.Value);
+                    //        break;
+                    //    case JTokenType.Float:
+                    //        context.Writer.WriteName(val.Key);
+                    //        context.Writer.WriteDouble((double)val.Value);
+                    //        break;
+                    //    case JTokenType.Array:
+                    //        context.Writer.WriteStartArray();
+                    //        foreach(var elem in val.Value.Values())
+                    //        {
+                    //            SerializeJObject(context, args, elem);
+                    //        }
+                    //        context.Writer.WriteEndArray();
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
                 }
                 context.Writer.WriteEndDocument();
+            }
+            else if (value.GetType().IsAssignableFrom(typeof(JArray)))
+            {
+                var jarr = (JArray)value;
+                context.Writer.WriteStartArray();
+
+                foreach(var elem in jarr)
+                {
+                    SerializeJObject(context, args, elem);
+                }
+
+                context.Writer.WriteEndArray();
+            }
+            else if (value.GetType().IsAssignableFrom(typeof(JToken)))
+            {
+                return;
+            }
+            else if (value.GetType().IsAssignableFrom(typeof(JProperty)))
+            {
+                //context.Writer.WriteStartDocument();
+                if (context.Writer.State == MongoDB.Bson.IO.BsonWriterState.Name)
+                {
+                    context.Writer.WriteName(((JProperty)value).Name);
+                }
+                SerializeJObject(context, args, ((JProperty)value).Value);
+
+                
+                //context.Writer.WriteEndDocument();
+            }
+            else if (value.GetType().IsAssignableFrom(typeof(JValue)))
+            {
+                var jval = (JValue)value;
+                switch(jval.Type)
+                {
+                    case JTokenType.String:
+                        context.Writer.WriteString(jval.Value.ToString());
+                        break;
+                    case JTokenType.Integer:
+                        context.Writer.WriteInt64((long)jval.Value);
+                        break;                        
+                    case JTokenType.Float:
+                        context.Writer.WriteDouble((double)jval.Value);
+                        break;
+                    case JTokenType.Null:
+                        context.Writer.WriteNull();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                BsonSerializer.LookupSerializer(value.GetType()).Serialize(context, value);
             }
         }
     }

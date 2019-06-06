@@ -90,5 +90,45 @@ namespace mongoserialization.test
             //var jsonReplace = json.Replace("\r\n", "");
             //output.WriteLine(jsonReplace);
         }
+
+        [Fact]
+        public void NewtonSoft_SerializeDeserializeTest()
+        {
+            collectionModelNewton.Database.DropCollection("Models");
+
+            var settings = new JsonSerializerSettings();
+            settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'FFF'Z'";
+            //settings.ContractResolver = new CamelCasePropertyNamesContractResolver() { IgnoreIsSpecifiedMembers = true };
+            settings.ContractResolver = new CustomCamelCasePropertyNamesContractResolver();
+
+            string json;
+            var file = @"Data\Serialization.Models.Newton.json";
+            using (StreamReader reader = new StreamReader(file))
+            {
+                json = reader.ReadToEnd().Replace("\n", "");
+            }
+
+            // Show in Output Window
+            output.WriteLine(json);
+
+            var document = JsonConvert.DeserializeObject<MyModelNewton>(json, settings);
+            collectionModelNewton.InsertOne(document);
+
+            var result = collectionModelNewton.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
+            
+            output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
+
+            JObject actual = JObject.Parse(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
+            
+            JObject expected;
+            using (StreamReader reader = new StreamReader(file))
+            {
+                expected = JObject.Parse(reader.ReadToEnd());
+            }
+
+            Assert.True(JObject.DeepEquals(actual, expected));
+
+            collectionModelNewton.Database.DropCollection("Models");
+        }
     }
 }
