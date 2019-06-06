@@ -5,6 +5,8 @@ using mongoserialization.Models;
 using mongoserialization.Serializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using Xunit;
 using Xunit.Abstractions;
@@ -66,10 +68,15 @@ namespace mongoserialization.test
         [Fact]
         public void NewtonSoft_ReadDataModel()
         {
+            ITraceWriter traceWriter = new MemoryTraceWriter();
+
+            var result = collectionModelNewton.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
+            var settings = new JsonSerializerSettings();
+            settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'FFF'Z'";
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
             
-            var result = collectionModel.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
-            
-            JObject actual = JObject.Parse(JsonConvert.SerializeObject(result, Formatting.Indented));
+            JObject actual = JObject.Parse(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
             var file = @"Data\Serialization.Models.Newton.json";
             JObject expected;
             using (StreamReader reader = new StreamReader(file))

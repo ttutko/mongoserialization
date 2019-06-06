@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,7 +16,7 @@ namespace mongoserialization.Serializers
 
         public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
-            throw new NotImplementedException();
+            return BsonSerializer.LookupSerializer<object>().Deserialize(context);
         }
 
         public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
@@ -44,7 +45,7 @@ namespace mongoserialization.Serializers
                         case JTokenType.Float:
                             context.Writer.WriteDouble((double)val.Value);
                             break;
-                        default:
+                        default:    
                             break;
                     }
                 }
