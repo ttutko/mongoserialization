@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using mongoserialization.Models;
 using mongoserialization.Serializers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using Xunit;
 using Xunit.Abstractions;
@@ -22,6 +23,12 @@ namespace mongoserialization.test
         public SerializationNewtonTest(ITestOutputHelper output)
         {
             BsonClassMap.RegisterClassMap<MyModelNewton>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapProperty(c => c.Metadata).SetSerializer(new MyCustomSerializer());
+            });
+
+            BsonClassMap.RegisterClassMap<JobNewton>(cm =>
             {
                 cm.AutoMap();
                 cm.MapProperty(c => c.Metadata).SetSerializer(new MyCustomSerializer());
@@ -62,11 +69,19 @@ namespace mongoserialization.test
             
             var result = collectionModel.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
             
-            string json = JsonConvert.SerializeObject(result, Formatting.Indented);
-            output.WriteLine(json);
-            
-            var jsonReplace = json.Replace("\r\n", "");
-            output.WriteLine(jsonReplace);
+            JObject actual = JObject.Parse(JsonConvert.SerializeObject(result, Formatting.Indented));
+            var file = @"Data\Serialization.Models.Newton.json";
+            JObject expected;
+            using (StreamReader reader = new StreamReader(file))
+            {
+                expected = JObject.Parse(reader.ReadToEnd());
+            }
+
+            Assert.True(JObject.DeepEquals(actual, expected));
+            //output.WriteLine(json);
+
+            //var jsonReplace = json.Replace("\r\n", "");
+            //output.WriteLine(jsonReplace);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace mongoserialization.Models
         public string Name { get; set; }
 
         [BsonElement("metadata")]
-        public Object Metadata { get; set; }
+        public object Metadata { get; set; }
 
         [BsonElement("logs")]
         public List<LogMessage> Logs { get; set; }
