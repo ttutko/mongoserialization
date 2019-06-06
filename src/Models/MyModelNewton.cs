@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace mongoserialization.Models
@@ -17,6 +18,7 @@ namespace mongoserialization.Models
         public List<JobNewton> Jobs { get; set; }
 
         [BsonElement("metadata")]
+        [JsonProperty("metadata")]
         public object Metadata { get; set; }
 
         public MyModelNewton()

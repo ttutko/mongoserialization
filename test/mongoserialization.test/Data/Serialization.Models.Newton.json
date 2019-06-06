@@ -32,11 +32,38 @@
           "timestamp": "2019-05-24T14:05:30.847Z"
         }
       ]
+    },
+    {
+      "name": "Job 3",
+      "metadata": [
+        "blah",
+        "blah2",
+        "blah3",
+        {
+          "ArrayProp1": "arrayProp1Value",
+          "arrayProp2": 66,
+          "arrayProp3": [ 1, 2, 3 ],
+          "arrayProp4": {
+            "subarrayProp1": "MySubArrayProp1Value!"
+          },
+          "arrayProp5": null
+        }
+      ],
+      "logs": [
+        {
+          "message": "Newton My message",
+          "timestamp": "2019-05-24T14:05:18.676Z"
+        },
+        {
+          "message": "Newton My message 2",
+          "timestamp": "2019-05-24T14:05:30.847Z"
+        }
+      ]
     }
   ],
   "metadata": {
     "key1": "Newtonmykey1value",
-    "key2": 5.1,
+    "Key2": 5.1,
     "key3": 3
   }
 }
