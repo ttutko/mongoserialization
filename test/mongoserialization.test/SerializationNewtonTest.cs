@@ -1,7 +1,12 @@
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using mongoserialization.Models;
+using mongoserialization.Serializers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,6 +24,18 @@ namespace mongoserialization.test
 
         public SerializationNewtonTest(ITestOutputHelper output)
         {
+            BsonClassMap.RegisterClassMap<MyModelNewton>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapProperty(c => c.Metadata).SetSerializer(new MyCustomSerializer());
+            });
+
+            BsonClassMap.RegisterClassMap<JobNewton>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapProperty(c => c.Metadata).SetSerializer(new MyCustomSerializer());
+            });
+
             this.output = output;
             client = new MongoClient("mongodb://localhost:27017");
             db = client.GetDatabase("Serialization");
@@ -51,14 +68,27 @@ namespace mongoserialization.test
         [Fact]
         public void NewtonSoft_ReadDataModel()
         {
+            ITraceWriter traceWriter = new MemoryTraceWriter();
+
+            var result = collectionModelNewton.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
+            var settings = new JsonSerializerSettings();
+            settings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'FFF'Z'";
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
             
-            var result = collectionModel.Find(model => model.Name.Equals("Newton Model 1")).FirstOrDefault();
-            
-            string json = JsonConvert.SerializeObject(result, Formatting.Indented);
-            output.WriteLine(json);
-            
-            var jsonReplace = json.Replace("\r\n", "");
-            output.WriteLine(jsonReplace);
+            JObject actual = JObject.Parse(JsonConvert.SerializeObject(result, Formatting.Indented, settings));
+            var file = @"Data\Serialization.Models.Newton.json";
+            JObject expected;
+            using (StreamReader reader = new StreamReader(file))
+            {
+                expected = JObject.Parse(reader.ReadToEnd());
+            }
+
+            Assert.True(JObject.DeepEquals(actual, expected));
+            //output.WriteLine(json);
+
+            //var jsonReplace = json.Replace("\r\n", "");
+            //output.WriteLine(jsonReplace);
         }
     }
 }

@@ -11,11 +11,11 @@
       "logs": [
         {
           "message": "Newton My message",
-          "timestamp": "2019-05-24T14:04:35.263"
+          "timestamp": "2019-05-24T14:04:35.263Z"
         },
         {
           "message": "Newton My message 2",
-          "timestamp": "2019-05-24T14:05:49.130"
+          "timestamp": "2019-05-24T14:05:49.130Z"
         }
       ]
     },
@@ -25,17 +25,18 @@
       "logs": [
         {
           "message": "Newton My message",
-          "timestamp": "2019-05-24T14:05:18.676"
+          "timestamp": "2019-05-24T14:05:18.676Z"
         },
         {
           "message": "Newton My message 2",
-          "timestamp": "2019-05-24T14:05:30.847"
+          "timestamp": "2019-05-24T14:05:30.847Z"
         }
       ]
     }
   ],
   "metadata": {
     "key1": "Newtonmykey1value",
-    "key2": 5.0
+    "key2": 5.1,
+    "key3": 3
   }
 }
