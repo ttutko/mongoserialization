@@ -36,6 +36,7 @@
   ],
   "metadata": {
     "key1": "Newtonmykey1value",
-    "key2": 5.0
+    "key2": 5.1,
+    "key3": 3
   }
 }

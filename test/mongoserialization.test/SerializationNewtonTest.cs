@@ -1,6 +1,8 @@
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using mongoserialization.Models;
+using mongoserialization.Serializers;
 using Newtonsoft.Json;
 using System.IO;
 using Xunit;
@@ -19,6 +21,12 @@ namespace mongoserialization.test
 
         public SerializationNewtonTest(ITestOutputHelper output)
         {
+            BsonClassMap.RegisterClassMap<MyModelNewton>(cm =>
+            {
+                cm.AutoMap();
+                cm.MapProperty(c => c.Metadata).SetSerializer(new MyCustomSerializer());
+            });
+
             this.output = output;
             client = new MongoClient("mongodb://localhost:27017");
             db = client.GetDatabase("Serialization");
