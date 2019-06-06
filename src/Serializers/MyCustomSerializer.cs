@@ -144,9 +144,15 @@ namespace mongoserialization.Serializers
                         break;
                     case JTokenType.Integer:
                         context.Writer.WriteInt64((long)jval.Value);
-                        break;                        
+                        break;
                     case JTokenType.Float:
                         context.Writer.WriteDouble((double)jval.Value);
+                        break;
+                    case JTokenType.Date:
+                        var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                        var dateTimeNoEpoch = ((DateTime)jval.Value).Subtract(new TimeSpan(epoch.Ticks));
+                        var dateTimeNoEpochTicks = (long)dateTimeNoEpoch.Ticks / 10000;
+                        context.Writer.WriteDateTime(dateTimeNoEpochTicks);
                         break;
                     case JTokenType.Null:
                         context.Writer.WriteNull();
